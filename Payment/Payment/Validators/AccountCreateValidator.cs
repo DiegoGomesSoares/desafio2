@@ -5,7 +5,7 @@ using Domain.Validators;
 using System;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Validators
+namespace Payment.Validators
 {
     public class AccountCreateValidator : IAccountCreateValidator
     {

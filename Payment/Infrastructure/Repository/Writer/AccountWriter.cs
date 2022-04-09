@@ -19,7 +19,7 @@ namespace Infrastructure.Repository.Writer
             ConnectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
 
-        public async Task<int> CreateAsync(Conta conta)
+        public async Task<int> CreateAsync(Conta account)
         {
             using var connection = ConnectionFactory.CreateConnection();
             var query =
@@ -31,10 +31,10 @@ VALUES
     (@IdPessoa, @Saldo, @LimiteSaqueDiario, @FlagAtivo, @TipoConta, @DataCriacao)";
 
             await connection.OpenAsync();
-            return await connection.ExecuteScalarAsync<int>(query, conta);
+            return await connection.ExecuteScalarAsync<int>(query, account);
         }
 
-        public async Task UpdateBalanceAsync(int idConta, decimal newBalanceValue, SqlCommand command)
+        public async Task UpdateBalanceAsync(int accountId, decimal newBalanceValue, SqlCommand command)
         {
             command.Parameters.Clear();
             command.CommandType = CommandType.Text;
@@ -43,12 +43,26 @@ VALUES
 SET 
     [saldo] = @newBalanceValue   
 WHERE 
-    [idConta] = @idConta";
+    [idConta] = @accountId";
 
             command.Parameters.Add("@newBalanceValue", SqlDbType.Money).Value = newBalanceValue;
-            command.Parameters.Add("@idConta", SqlDbType.Int).Value = idConta;
+            command.Parameters.Add("@accountId", SqlDbType.Int).Value = accountId;
 
             await command.ExecuteNonQueryAsync();
+        }
+
+        public async Task BlockAccount(int accountId)
+        {
+            using var connection = ConnectionFactory.CreateConnection();
+            var sqlQuery =
+@"UPDATE[dbo].[Contas]
+SET
+    [flagAtivo] = 0
+WHERE
+    [idConta] = @accountId";
+
+            await connection.OpenAsync();
+            await connection.ExecuteAsync(sqlQuery, new { accountId });
         }
     }
 }

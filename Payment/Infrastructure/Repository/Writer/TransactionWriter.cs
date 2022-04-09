@@ -8,7 +8,7 @@ namespace Infrastructure.Repository.Writer
 {
     public class TransactionWriter : ITransactionWriter
     {
-        public async Task<int> CreateAsync(Transacao transacao, SqlCommand command)
+        public async Task<int> CreateAsync(Transacao transaction, SqlCommand command)
         {
             command.Parameters.Clear();
             command.CommandType = CommandType.Text;
@@ -20,9 +20,9 @@ OUTPUT
 VALUES
     (@idConta, @valor, @dataTransacao)";
 
-            command.Parameters.Add("@idConta", SqlDbType.Int).Value = transacao.IdConta;
-            command.Parameters.Add("@valor", SqlDbType.Money).Value = transacao.Valor;
-            command.Parameters.Add("@dataTransacao", SqlDbType.VarChar, 50).Value = transacao.DataTransacao;
+            command.Parameters.Add("@idConta", SqlDbType.Int).Value = transaction.IdConta;
+            command.Parameters.Add("@valor", SqlDbType.Money).Value = transaction.Valor;
+            command.Parameters.Add("@dataTransacao", SqlDbType.DateTime).Value = transaction.DataTransacao;
 
             return (int) await command.ExecuteScalarAsync();
         }

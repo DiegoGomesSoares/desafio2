@@ -24,7 +24,8 @@ namespace Payment
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInfrastructureModule(Configuration);
+            services.AddInfrastructureModule(Configuration)
+                    .AddApplicationModule();
 
             services.AddControllers(c => 
             {

@@ -5,6 +5,7 @@ namespace Domain.Validators
 {
     public interface IAccountTransactionValidator
     {
-        ValidateResultModel ValidateCashinOperation(Conta account);
+        ValidateResultModel ValidateCashinOperation(Conta account, decimal amount);
+        ValidateResultModel ValidateCashOutOperation(Conta account, decimal amount);
     }
 }

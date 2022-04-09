@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Models.Requests;
 using Domain.Models.Responses;
+using Domain.Operations;
 using Domain.Repository.Reader;
 using Domain.Repository.Writer;
 using Domain.Validators;
@@ -16,22 +17,26 @@ namespace Payment.Controllers
     public class AccountController : ControllerBase
     {
         public IAccountCreateValidator AccountCreateValidator { get; }
-        public IGetBalanceValidator GetBalanceValidator { get; }
+        public IAccountIdValidator AccountIdValidator { get; }
         public IAccountWriter AccountWriter { get; }
         public IAccountReader AccountReader { get; }
+        public IStatementOperator StatementOperator { get; }
 
         private static readonly string _accountNotFoundErrorMessage = "Account Not Found";
+        private static readonly string _accountIsBlockErrorMessage = "Account Is Already Blocked";
 
         public AccountController(
             IAccountCreateValidator accountCreateValidator,
-            IGetBalanceValidator getBalanceValidator,
+            IAccountIdValidator accountIdValidator,
             IAccountWriter accountWriter,
-            IAccountReader accountReader)
+            IAccountReader accountReader,
+            IStatementOperator statementOperator)
         {
             AccountCreateValidator = accountCreateValidator ?? throw new ArgumentNullException(nameof(accountCreateValidator));
-            GetBalanceValidator = getBalanceValidator ?? throw new ArgumentNullException(nameof(getBalanceValidator));
+            AccountIdValidator = accountIdValidator ?? throw new ArgumentNullException(nameof(accountIdValidator));
             AccountWriter = accountWriter ?? throw new ArgumentNullException(nameof(accountWriter));
-            AccountReader = accountReader ?? throw new ArgumentNullException(nameof(accountReader));            
+            AccountReader = accountReader ?? throw new ArgumentNullException(nameof(accountReader));
+            StatementOperator = statementOperator ?? throw new ArgumentNullException(nameof(statementOperator));
         }
 
         [HttpPost]
@@ -41,7 +46,7 @@ namespace Payment.Controllers
         {
             var validationResult = await AccountCreateValidator.ValidateAsync(model.PersonId, model.Type);
 
-            if (validationResult.IsValid == false )
+            if (validationResult.IsValid == false)
                 return BadRequest(validationResult.ErrorMessage);
 
             var account = GetAccountToCreate(model);
@@ -51,11 +56,11 @@ namespace Payment.Controllers
             return Ok(GetAccounteResponse(account));
         }
 
-        [HttpGet]        
+        [HttpGet]
         [Route("/balance/{accountId}")]
         public async Task<IActionResult> GetBalance(int accountId)
         {
-            var validationResult = GetBalanceValidator.ValidateAsync(accountId);
+            var validationResult = AccountIdValidator.Validate(accountId);
 
             if (validationResult.IsValid == false)
                 return BadRequest(validationResult.ErrorMessage);
@@ -65,10 +70,66 @@ namespace Payment.Controllers
                 return BadRequest(_accountNotFoundErrorMessage);
 
             return Ok(GetBalanceResponse(account.Saldo));
-
         }
 
-        private GetBalanceResponse GetBalanceResponse(decimal saldo)
+        [HttpPut]
+        [Route("/block/{accountId}")]
+        public async Task<IActionResult> Block(int accountId)
+        {
+            var validationResult = AccountIdValidator.Validate(accountId);
+
+            if (validationResult.IsValid == false)
+                return BadRequest(validationResult.ErrorMessage);
+
+            var account = await AccountReader.GetAccountByIdAsync(accountId);
+            if (account == null)
+                return BadRequest(_accountNotFoundErrorMessage);
+
+            if (account.FlagAtivo == false)
+                return BadRequest(_accountIsBlockErrorMessage);
+
+            await AccountWriter.BlockAccount(accountId);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("/statement/{accountId}")]
+        public async Task<IActionResult> GetStatement(
+            [FromRoute] int accountId,
+            [FromQuery] string startDate,
+            [FromQuery] string endDate,
+            [FromQuery] int size = 10,
+            [FromQuery] int page = 1)
+        {
+            var validationResult = AccountIdValidator.Validate(accountId);
+
+            if (validationResult.IsValid == false)
+                return BadRequest(validationResult.ErrorMessage);
+
+            var account = await AccountReader.GetAccountByIdAsync(accountId);
+            if (account == null)
+                return BadRequest(_accountNotFoundErrorMessage);
+
+            if (account.FlagAtivo == false)
+                return BadRequest(_accountIsBlockErrorMessage);
+
+            var statementRequest = new StatementRequest
+            {
+                AccountId = accountId,
+                Balance = account.Saldo,
+                StartDate = startDate,
+                EndDate = endDate,
+                Size = size,
+                Page = page
+            };
+
+            var response = await StatementOperator.GetStatementAsync(statementRequest);
+
+            return Ok(response);
+        }
+
+        private static GetBalanceResponse GetBalanceResponse(decimal saldo)
         {
             return new GetBalanceResponse { Saldo = saldo };
         }
@@ -83,11 +144,11 @@ namespace Payment.Controllers
             };
         }
 
-        private Conta GetAccountToCreate(AccountRequest model)
+        private static Conta GetAccountToCreate(AccountRequest model)
         {
             return new Conta
             {
-                FlagAtivo = model.IsEnabled,
+                FlagAtivo = true,
                 IdPessoa = model.PersonId,
                 LimiteSaqueDiario = model.DailyCashOutLimit,
                 TipoConta = (short)model.Type,

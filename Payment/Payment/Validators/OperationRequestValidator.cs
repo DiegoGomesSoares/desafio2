@@ -3,15 +3,16 @@ using FluentValidation;
 
 namespace Payment.Validators
 {
-    public class CashinRequestValidator : AbstractValidator<CashinRequest>
+    public class OperationRequestValidator : AbstractValidator<OperationRequest>
     {
-        public CashinRequestValidator()
+        public OperationRequestValidator()
         {
             RuleFor(x => x.AccountId)
                .GreaterThan(0)
                .NotNull();
 
             RuleFor(x => x.Amount)
+                .NotEqual(0)
                 .NotNull();
         }
     }

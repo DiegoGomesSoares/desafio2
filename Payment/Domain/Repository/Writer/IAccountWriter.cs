@@ -6,7 +6,8 @@ namespace Domain.Repository.Writer
 {
     public interface IAccountWriter
     {
-        Task<int> CreateAsync(Conta conta);
-        Task UpdateBalanceAsync(int idConta, decimal newBalanceValue, SqlCommand command);
+        Task<int> CreateAsync(Conta account);
+        Task UpdateBalanceAsync(int accountId, decimal newBalanceValue, SqlCommand command);
+        Task BlockAccount(int accountId);
     }
 }

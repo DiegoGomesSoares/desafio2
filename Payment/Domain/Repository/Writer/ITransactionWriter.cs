@@ -6,6 +6,6 @@ namespace Domain.Repository.Writer
 {
     public interface ITransactionWriter
     {
-        Task<int> CreateAsync(Transacao transacao, SqlCommand command);
+        Task<int> CreateAsync(Transacao transaction, SqlCommand command);
     }
 }

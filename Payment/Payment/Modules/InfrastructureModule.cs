@@ -1,15 +1,11 @@
-﻿using Domain.Operations;
-using Domain.Repository;
+﻿using Domain.Repository;
 using Domain.Repository.Reader;
 using Domain.Repository.Writer;
-using Domain.Validators;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Reader;
 using Infrastructure.Repository.Writer;
-using Infrastructure.Validators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Payment.Operations;
 
 namespace Payment.Modules
 {
@@ -28,12 +24,9 @@ namespace Payment.Modules
 
             services.AddTransient<IPersonReader, PersonReader>()
                     .AddTransient<IAccountReader, AccountReader>()
-                    .AddTransient<IAccountWriter, AccountWriter>()
-                    .AddTransient<IAccountCreateValidator, AccountCreateValidator>()
-                    .AddTransient<IGetBalanceValidator, GetBalanceValidator>()
-                    .AddTransient<IAccountTransactionValidator, AccountTransactionValidator>()
-                    .AddTransient<IAccountOperator, AccountOperator>()
-                    .AddTransient<ITransactionWriter, TransactionWriter>();
+                    .AddTransient<IAccountWriter, AccountWriter>()                    
+                    .AddTransient<ITransactionWriter, TransactionWriter>()
+                    .AddTransient<ITransactionReader, TransactionReader>();
 
             return services;
         }
