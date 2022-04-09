@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "senha#2021"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"    
+    volumes:
+      - c:\estudo\volumes:/var/opt/mssql/data
+      
+  app-payment:
+    build: .\
+    container_name: app-payment   
+    ports:
+      - "8080:80" 
+    restart: "no"
