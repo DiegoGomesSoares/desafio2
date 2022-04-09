@@ -20,7 +20,7 @@ namespace Payment.ValidationHandlers
             if (IsCachinOperation(amount))
                 return AccountTransactionValidator.ValidateCashinOperation(account, amount);
 
-            return AccountTransactionValidator.ValidateCashOutOperation(account, amount);            
+            return AccountTransactionValidator.ValidateCashOutOperation(account, amount);
         }
 
         private static bool IsCachinOperation(decimal amount)

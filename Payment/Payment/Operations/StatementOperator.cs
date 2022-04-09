@@ -16,13 +16,14 @@ namespace Payment.Operations
         {
             TransactionReader = transactionReader ?? throw new ArgumentNullException(nameof(transactionReader));
         }
+
         public async Task<StatementResponse> GetStatementAsync(StatementRequest model)
         {
             var startDate = GetFormatedStartDate(model.StartDate);
             var endDate = GetFormatedEndDate(model.EndDate);
 
             var countTask = TransactionReader.GetTotalCountAsync(model.AccountId, startDate, endDate);
-            var transactionTask =  
+            var transactionTask =
                         TransactionReader
                         .GetAllPaginatedAsync(model.AccountId, startDate, endDate, model.Page, model.Size);
 

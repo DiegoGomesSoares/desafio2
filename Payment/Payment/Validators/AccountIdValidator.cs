@@ -9,7 +9,7 @@ namespace Payment.Validators
        
         public ValidateResultModel Validate(int accountId)
         {
-            if (accountId == 0)
+            if (accountId == 0 || accountId < 0)
                 return new ValidateResultModel { ErrorMessage = _invalidAccountIdErrorMessage };
 
             return new ValidateResultModel { IsValid = true };

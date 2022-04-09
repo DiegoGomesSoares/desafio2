@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Models;
 using Domain.Validators;
-using System;
 
 namespace Payment.Validators
 {
@@ -11,7 +10,7 @@ namespace Payment.Validators
         private static readonly string _accountIsBlockedErrorMessage = "Account Is Blocked";
         private static readonly string _invalidAmountCashinErrorMessage = "Amount Must be greater then 0";
         private static readonly string _invalidAmountCashoutErrorMessage = "Amount Must be less than 0";
-        private static readonly string _invalidAmountCashOutDalyLimitErrorMessage = "Amount Must Not to be greater then CashOutDalyLimit";
+        private static readonly string _invalidAmountCashOutDailyLimitErrorMessage = "Amount Must Not to be greater then CashOutDailyLimit";
 
         public ValidateResultModel ValidateCashinOperation(Conta account, decimal amount)
         {
@@ -60,12 +59,12 @@ namespace Payment.Validators
 
         private static ValidateResultModel ValidateCashOut(Conta account, decimal amount)
         {
-            if (account.LimiteSaqueDiario.HasValue && amount > account.LimiteSaqueDiario.Value)
-                return new ValidateResultModel { ErrorMessage = _invalidAmountCashOutDalyLimitErrorMessage };
-
             if (IsAnInvalidCasOutAmount(amount))
                 return new ValidateResultModel { ErrorMessage = _invalidAmountCashoutErrorMessage };
 
+            if (account.LimiteSaqueDiario.HasValue && ((amount * -1) > account.LimiteSaqueDiario.Value))
+                return new ValidateResultModel { ErrorMessage = _invalidAmountCashOutDailyLimitErrorMessage };
+            
             return null;
         }
 

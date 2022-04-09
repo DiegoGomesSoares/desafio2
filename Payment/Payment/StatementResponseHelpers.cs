@@ -11,6 +11,8 @@ namespace Payment
         public static StatementResponse MapTransactions(IEnumerable<Transacao> transactions)
         {
             var statement = new StatementResponse();
+            if (transactions == null) return statement;
+            
             statement.Transacoes = transactions.Select(transaction => 
                 new TransactionResponse
                 {

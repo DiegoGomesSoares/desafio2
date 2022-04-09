@@ -24,16 +24,16 @@ namespace Payment.Validators
         }
 
         public async Task<ValidateResultModel> ValidateAsync(int personId, AccountTypeEnum accountType)
-        {      
-                var person = await PersonReader.GetPersonByIdAsync(personId);
+        {
+            var person = await PersonReader.GetPersonByIdAsync(personId);
 
-                if (person == null)
-                    return new ValidateResultModel { ErrorMessage = _invalidPersonErrorMessage };
+            if (person == null)
+                return new ValidateResultModel { ErrorMessage = _invalidPersonErrorMessage };
 
-                if (await PersonHasAnAccountWithSameType(personId, accountType))
-                    return new ValidateResultModel { ErrorMessage = _invalidAccountTypeErrorMessage };
+            if (await PersonHasAnAccountWithSameType(personId, accountType))
+                return new ValidateResultModel { ErrorMessage = _invalidAccountTypeErrorMessage };
 
-                return new ValidateResultModel { IsValid = true };
+            return new ValidateResultModel { IsValid = true };
         }
 
         private async Task<bool> PersonHasAnAccountWithSameType(int personId, AccountTypeEnum accountType)
@@ -43,4 +43,4 @@ namespace Payment.Validators
             return account != null;
         }
     }
- }
+}

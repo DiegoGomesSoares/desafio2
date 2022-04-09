@@ -7,6 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.tests.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.tests.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.Idioms" Version="4.17.0" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
+    <PackageReference Include="FluentAssertions" Version="6.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -17,6 +36,10 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Payment\Payment.csproj" />
   </ItemGroup>
 
 </Project>
