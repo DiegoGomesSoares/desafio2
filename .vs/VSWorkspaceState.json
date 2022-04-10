@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Payment",
+    "\\Payment\\Infrastructure",
+    "\\Payment\\UnitTests",
+    "\\Payment\\UnitTests\\Payment",
+    "\\Payment\\UnitTests\\Payment\\Controllers",
+    "\\Payment\\UnitTests\\Payment\\Validators"
+  ],
+  "SelectedNode": "\\Payment\\UnitTests\\Payment\\Controllers\\AccountControllerTests.cs",
+  "PreviewInSolutionExplorer": false
+}

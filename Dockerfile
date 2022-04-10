@@ -7,9 +7,8 @@ WORKDIR /src
 COPY /Payment/Payment.sln ./
 COPY /Payment/Domain/Domain.csproj ./Domain/ 
 COPY /Payment/Infrastructure/Infrastructure.csproj ./Infrastructure/
-COPY /Payment/Repository/Repository.csproj ./Repository/
 COPY /Payment/UnitTests/UnitTests.csproj ./UnitTests/
-COPY /Payment/Payment/Payment.csproj ./Payment/  
+COPY /Payment/Payment/Payment.csproj ./Payment/
 
 RUN dotnet restore
 COPY . .
@@ -19,11 +18,8 @@ RUN dotnet build -c Release -o /app
 WORKDIR /src/Infrastructure
 RUN dotnet build -c Release -o /app
 
-WORKDIR /src/Repository
-RUN dotnet build -c Release -o /app
-
-WORKDIR /src/UnitTests
-RUN dotnet build -c Release -o /app
+#WORKDIR /src/UnitTests
+#RUN dotnet build -c Release -o /app
 
 WORKDIR /src/Payment
 RUN dotnet build -c Release -o /app
