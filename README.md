@@ -56,7 +56,7 @@ Os testes unitários foram feitos usando xunit + autofixture + fluent assertions
 #### Como Executar:
 - Clonar o projeto;
 - Abrir o powerShell;
-- Vá para a pasta que contenha o arquivo "docker-compose.yml" (no meu caso é "desafio2");
+- Vá para a pasta que contenha o arquivo "docker-compose.yml";
 - Caso você queira manter as informações que serão criadas dentro da sua base de dados, abrir o arquivo "docker-compose.yml" descomentar as linhas(11 e 12) relacionadas a "volume" e colocar um diretório da sua máquina;
 - Execute o comando "docker-compose up --build -d";
 - Após esse comando será gerado um banco de dados local. Será necessário e popular as a base e as tabelas desse banco de dados.Para isso siga os proximos passos:
