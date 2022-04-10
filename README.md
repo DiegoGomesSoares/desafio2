@@ -41,12 +41,12 @@
     * Implementar path que recupera o extrato de transações de uma conta;
     ```
 
-###Desafio Dock:
+### Desafio Dock:
 O desafio foi feito utilizando a linguagem c#.
 O framework usado foi o net core 5.0 com banco SQL;
 Os testes unitários foram feitos usando xunit + autofixture + fluent assertions;
 
-##Ferramentas necessárias para executar o projeto:
+## Ferramentas necessárias para executar o projeto:
  -Docker (através do docker compose, um comando, será provisionado o ambiente).
  -PowerShell (executar os comandos do docker);
  -Sql server management studio (ou alguma outra ferramenta para logar e executar scripts na sua base de dados);
@@ -60,7 +60,7 @@ Os testes unitários foram feitos usando xunit + autofixture + fluent assertions
 -Caso você queira manter as informações que serão criadas dentro da sua base de dados, abrir o arquivo "docker-compose.yml" descomentar as linhas(11 e 12) relacionadas a "volume" e colocar um diretório da sua máquina;
 -Execute o comando "docker-compose up --build -d";
 
-#Após esse comando será gerado um banco de dados local. Será necessário e popular as a base e as tabelas desse banco de dados.Para isso siga os proximos passos:
+# Após esse comando será gerado um banco de dados local. Será necessário e popular as a base e as tabelas desse banco de dados.Para isso siga os proximos passos:
 	- Fazer login na base local:
 		- Logar normalmente pelo sql server management studio;
 		  - Abrir o sql server management studio;
