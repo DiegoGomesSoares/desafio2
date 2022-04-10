@@ -31,7 +31,7 @@ namespace Payment.Controllers
         [ValidateViewModel]
         [Route("account/cashin")]
         [Route("account/cashout")]
-        public async Task<IActionResult> Cashin([FromBody] OperationRequest model)
+        public async Task<IActionResult> Operation([FromBody] OperationRequest model)
         {
             var account = await AccountReader.GetAccountByIdAsync(model.AccountId);
 

@@ -1,13 +1,10 @@
 ﻿using AutoFixture.Idioms;
 using Domain.Entities;
-using Domain.Models;
 using Domain.Models.Requests;
 using Domain.Operations;
-using Domain.Validators;
 using FluentAssertions;
 using NSubstitute;
 using Payment.Operations;
-using Payment.ValidationHandlers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
