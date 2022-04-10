@@ -54,7 +54,7 @@ Os testes unitários foram feitos usando xunit + autofixture + fluent assertions
     * P.S.: A execução dos testes ainda não foi automatiza, quando for desenvolvido, ficará direto no "dockerFile" da aplicação, removendo assim essa depêndencia;   
 	
 #### Como Executar:
-- Clonar o projeto;
+- Clonar o projeto : https://github.com/DiegoGomesSoares/desafio2.git;
 - Abrir o powerShell;
 - Vá para a pasta que contenha o arquivo "docker-compose.yml";
 - Caso você queira manter as informações que serão criadas dentro da sua base de dados, abrir o arquivo "docker-compose.yml" descomentar as linhas(11 e 12) relacionadas a "volume" e colocar um diretório da sua máquina;
