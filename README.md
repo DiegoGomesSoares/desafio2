@@ -43,7 +43,7 @@
 
 ### Desafio Dock:
 O desafio foi feito utilizando a linguagem c#.
-O framework usado foi o net core 5.0 com banco SQL;
+O framework usado foi o net core 5.0 e banco de dados SQL server;
 Os testes unitários foram feitos usando xunit + autofixture + fluent assertions;
 
 #### Ferramentas necessárias para executar o projeto:
